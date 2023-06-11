@@ -1,10 +1,13 @@
-MAX_LINES = 3 # Pour déclarer une const j'écris en lettres capitales (convention Python)
+MAX_LINES = 3 # Pour déclarer une variable j'écris en lettres capitales (convention Python)
+
+MAX_BET = 100
+MIN_BET = 1
 
 # Je déclare une fonction 
 def deposit() : 
     # Je créé une boucle et je teste les différentes conditions. 
     while True: 
-        amount = input("What would you like to deposit? ") # input permet à l'utilisateur d'intégrer une donnée
+        amount = input("What would you like to deposit? $ ") # input permet à l'utilisateur d'intégrer une donnée
         # je vérifie que l'entrée de l'utilisateur est un nombre
         if amount.isdigit():
             amount = int(amount) # je passe ma valeur en nb entier
@@ -35,10 +38,29 @@ def get_number_of_lines():
 
     return lines 
 
+def get_bet():
+    while True: 
+        amount = input("What would you like to bet on each line? ") 
+        if amount.isdigit():
+            amount = int(amount)
+            if MIN_BET <= amount <= MAX_BET: 
+                break 
+            else: 
+                print(f"Amount must be between ${MIN_BET} - ${MAX_BET}") # cette syntaxe converti directement mes nombres en string - f
+        else: 
+            print("Please enter a number")
+
+    return amount
+
+
 # je créé une fonction principale pour exécuter mon script
 def main():
     balance = deposit()
     lines = get_number_of_lines()
-    print(balance, lines)
+    bet = get_bet()
+    total_bet = bet * lines
+    print(f"you are betting ${bet} on {lines} lines. Total bet is equal to :${total_bet}")
+    # print(balance, lines)
+
 
 main()
