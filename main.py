@@ -1,7 +1,58 @@
+import random
+
 MAX_LINES = 3 # Pour déclarer une variable j'écris en lettres capitales (convention Python)
 
 MAX_BET = 100
 MIN_BET = 1
+
+ROWS = 3
+COLS = 3
+
+# attribution des symboles 
+
+symbol_count = {
+    "A": 2,
+    "B": 4,
+    "C": 6,
+    "D": 8
+}
+
+def get_slot_machine_spin(rows, cols, symbols):
+    # algo aleatoire
+
+    all_symbols = []
+    for symbol, symbol_count in symbols.items(): # key, value => loop
+        for _ in range(symbol_count): # "_" variable anonyme 
+            all_symbols.append(symbol)# append = ajouter la donnée dans le tableai init
+
+
+    columns = []
+    for _ in range(cols):
+        column = []
+        # ici on retire le symbole déj) séléectionné pour ne pas dépasser la valeur par exemple max 2 fois le A
+        # pour ça on copie la liste avec [:], on ne modifie par la source directement mais une copie
+        current_symbols = all_symbols[:]
+        for _ in range(rows):
+            value = random.choice(current_symbols)
+            current_symbols.remove(value)
+            column.append(value)
+
+        columns.append(column)
+
+    return columns
+
+# ici on cherche à afficher nos colonne sous le bon format, on transpose
+def print_slot_machine(columns):
+    for row in range(len(columns[0])):
+        for i, column in enumerate(columns):
+            if i != len(columns) - 1: # on définit l'index max
+                print(column[row], end=" | ") # on modifie la end line afin d'éviter le comportement par défaut (saut à la ligne)
+            else: 
+                print(column[row], end="")
+
+        print()
+
+
 
 # Je déclare une fonction 
 def deposit() : 
@@ -57,10 +108,21 @@ def get_bet():
 def main():
     balance = deposit()
     lines = get_number_of_lines()
-    bet = get_bet()
+    while True:
+        bet = get_bet()
+        total_bet = bet * lines
+
+        if total_bet > balance: 
+            print(f"You do not have enought to bet that amount, your current balance is ${balance}")
+        else: 
+            break
+
+
     total_bet = bet * lines
     print(f"you are betting ${bet} on {lines} lines. Total bet is equal to :${total_bet}")
     # print(balance, lines)
 
+    slots = get_slot_machine_spin(ROWS, COLS, symbol_count)
+    print_slot_machine(slots)
 
 main()
