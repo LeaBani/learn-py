@@ -17,6 +17,30 @@ symbol_count = {
     "D": 8
 }
 
+symbol_value = {
+    "A": 5,
+    "B": 4,
+    "C": 3,
+    "D": 2
+}
+
+def check_winnings(columns, lines, bet, values):
+    # sélectionner la ligne
+    winnings = 0
+    winning_lines = [] # sur quelle ligne on gagne
+    for line in range(lines):
+        symbol = columns[0][line] # on vérifie dans la première colonne, la line actuelle
+    for column in columns: # vérifier que les symboles d'une colonne sont égaux
+        symbol_to_check = column[line]
+        if symbol != symbol_to_check:
+            break # si le symbol est différent du symbole précédent, on sort du cas
+    else:
+        winnings += values[symbol] * bet
+        winning_lines.append(lines + 1) # +1 car c'est un index, on veut afficher 
+
+    return winnings, winning_lines
+        
+
 def get_slot_machine_spin(rows, cols, symbols):
     # algo aleatoire
 
@@ -124,5 +148,8 @@ def main():
 
     slots = get_slot_machine_spin(ROWS, COLS, symbol_count)
     print_slot_machine(slots)
+    winnings, winning_lines = check_winnings(slots, lines, bet, symbol_value)
+    print(f"you won ${winnings}")
+    print(f"you won on lines: ", *winning_lines) # "*" spread operator en Python, on passe toutes les lignes dans le print
 
 main()
