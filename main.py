@@ -127,10 +127,8 @@ def get_bet():
 
     return amount
 
-
-# je créé une fonction principale pour exécuter mon script
-def main():
-    balance = deposit()
+# je créé ma fonction de jeu
+def spin(balance):
     lines = get_number_of_lines()
     while True:
         bet = get_bet()
@@ -151,5 +149,19 @@ def main():
     winnings, winning_lines = check_winnings(slots, lines, bet, symbol_value)
     print(f"you won ${winnings}")
     print(f"you won on lines: ", *winning_lines) # "*" spread operator en Python, on passe toutes les lignes dans le print
+    return winnings - total_bet # on update le montant restant
+
+# je créé une fonction principale pour exécuter mon script
+def main():
+    balance = deposit()
+    # ici je créé une boucle qui me permets de relancer le jeu automatiquement
+    while True:
+        print(f"Current balance is ${balance}")
+        answer = input("Press enter to play. (q to quit)")
+        if answer == "q":
+            break
+        balance += spin(balance) # on update la balance
+
+        print(f"You left with ${balance}.")
 
 main()
